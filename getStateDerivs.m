@@ -1,4 +1,4 @@
-function fx = getStates(x,u,info)
+function fx = getStateDerivs(x,u,info)
 %getStates(x,u) takes the current states and inputs and computes the first 
 %order derivatives of each state. The order of the output is [pxd pyd pzd 
 %udb vdb wdb phid thetad psid pdb qdb rdb]. The order of the current states
