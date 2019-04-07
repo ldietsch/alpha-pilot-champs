@@ -1,4 +1,4 @@
-function h = getEqualityCons(x0, U, X, Ts, N)
+function h = predictStates(x0, U, Ts, N)
 
 h = zeros(12*N,1);
 m = 4;
@@ -15,7 +15,5 @@ for i = 1:N
     x0 = xnew;
     
 end
-
-h = h - X;
 
 end
