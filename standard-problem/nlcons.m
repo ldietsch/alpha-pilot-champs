@@ -8,14 +8,11 @@ else
 end
 
 DX = predictDerivs(X, U, N, info);
-a_max = quad_limits.a_max;
-acc = extractAccel(DX,N);
-accel_cons = getAccelCons(acc, a_max, N);
 
 v_max = quad_limits.v_max;
 vel = extractVel(DX,N);
 vel_cons = getVelCons(vel, v_max, N);
 
-g = [accel_cons; vel_cons];
+g = vel_cons;
 
 end

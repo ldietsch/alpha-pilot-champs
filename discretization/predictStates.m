@@ -9,7 +9,7 @@ t = 2;
 X(1:12) = x0(1:12);
 for i = 1:N
     
-    xnew = forwardEuler(x0,U(j:k*m,1),Ts, info);
+    xnew = RK4(x0,U(j:k*m,1),Ts, info);
     X(l:12*t,1) = xnew;
     k = k + 1;
     j = j + m;
