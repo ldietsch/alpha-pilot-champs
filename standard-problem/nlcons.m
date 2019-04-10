@@ -2,7 +2,7 @@ function [g, h] = nlcons(U, X0, x_final_pos, Ts, N, quad_limits, info)
 
 X = predictStates(X0, U, Ts, N, info);
 if ~isempty(x_final_pos)
-    h = (X((N)*12+1:N*12+3) - x_final_pos)./x_final_pos;
+    h = (X((N)*12+1:N*12+3) - x_final_pos);
 else
     h =[];
 end

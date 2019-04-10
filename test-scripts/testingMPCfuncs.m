@@ -14,7 +14,8 @@ l = 0.1;
 J = getMoments(Mbig, Msmall, R, l);
 k_tau = 1;
 g = 9.81;
-info = struct('m',m_tot,'g',g,'J',J,'l',l,'k_tau',k_tau);
+tol = 1e-4;
+info = struct('m',m_tot,'g',g,'J',J,'l',l,'k_tau',k_tau,'tol',tol);
 n = 12; %Number of states
 m = 4; %Number of inputs
 Nmpc = 5; %N steps ahead in MPC
@@ -24,9 +25,12 @@ Q = getQbar(Q0,n,Nmpc);
 
 %% testing reference trajectory generation
 Nsteps = 40;
-x0 = ones(n,1)*.2;
+x0 = zeros(n,1)*.2;
 Uref = [0 0 0 0 zeros(m*(Nsteps-1),1)']';
 xref = predictStates(x0,Uref,Ts,Nsteps,info); 
+position = extractPos(xref, Nsteps);
+figure(1)
+plot3(position(1,:),position(2,:),position(3,:))
 %% testing main MPC algorithm
 A = []; b = []; Aeq = []; beq = []; 
 a_max = 3*g;
@@ -67,10 +71,10 @@ end
 
 %% Post-processing
 steps = length(Umpc)/m;
-x0 = ones(n,1)*.2;
+x0 = zeros(n,1)*.2;
 results = predictStates(x0,Umpc, Ts, steps, info);
-position = extractPos(results, steps);
-figure(1)
-plot3(position(1,:),position(2,:),position(3,:))
+[x, y, z] = extractPos(results, steps);
+figure(2)
+plot3(x,y,z)
 
 

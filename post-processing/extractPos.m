@@ -1,4 +1,4 @@
-function pos = extractPos(results, steps)
+function [x_i, y_i, z_i] = extractPos(results, steps)
 
 pos = zeros(3*steps,1);
 j = 1;
@@ -10,5 +10,5 @@ for i = 1:steps
 end
 
 pos = reshape(pos, 3, steps);
-
+x = pos(1,:)
 end
