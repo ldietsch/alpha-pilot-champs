@@ -10,5 +10,7 @@ for i = 1:steps
 end
 
 pos = reshape(pos, 3, steps);
-x = pos(1,:)
+x_i = pos(1,:);
+y_i = pos(2,:);
+z_i = pos(3,:);
 end

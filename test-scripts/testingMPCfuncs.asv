@@ -41,9 +41,8 @@ xref = predictStates(x0,Uref,info);
 figure(1)
 plot3(xi,yi,zi)
 
-
-%% testing main MPC algorithm
 info.post_processing = false;
+%% testing main MPC algorithm
 A = []; b = []; Aeq = []; beq = []; 
 a_max = 3*g;
 lb = zeros(m*nMPC,1); 

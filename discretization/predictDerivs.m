@@ -1,5 +1,5 @@
-function DX = predictDerivs(x, u, N, info)
-
+function DX = predictDerivs(x, u, info)
+N = info.nMPC;
 DX = zeros(12*N,1);
 j = 1;
 k = 1;

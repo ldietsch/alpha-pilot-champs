@@ -1,5 +1,5 @@
-function [fx_k_1, Ts_new] = RK45(x, u, Ts, info)
-
+function [fx_k_1, Ts_new] = RK45(x, u, info)
+Ts = info.Ts;
 tol = info.tol;
 k = zeros(12,6);
 fx_k1 = getStateDerivs(x,u,info);

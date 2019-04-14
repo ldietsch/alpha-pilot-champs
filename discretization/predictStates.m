@@ -1,22 +1,28 @@
-function X = predictStates(x0, U, Ts, N, info)
-
+function X = predictStates(x0, U, info)
+dimM = info.dimM;
+substeps = info.substeps;
+if info.post_processing %false by default
+    N = info.Nsteps;
+else
+    N = info.nMPC;
+end
 X = zeros(12*(N+1),1);
-m = 4;
-k = 1;
-j = 1;
-l = 13;
-t = 2;
+xV = zeros(12, N*substeps);
+xV(:,1) = x0;
 X(1:12) = x0(1:12);
+n = 1;
+l = 13;
+
+%this integration scheme follows the single shooting scheme
 for i = 1:N
-    
-    [xnew, ~] = RK45(x0,U(j:k*m,1),Ts, info);
-    X(l:12*t,1) = xnew;
-    k = k + 1;
-    j = j + m;
+    for j = 1:substeps
+        k = (i - 1)*substeps + j;
+        [xnew, ~] = RK45(xV(:,k),U(n:i*dimM,1), info);
+        xV(:,k+1) = xnew;
+    end
+    n = n + dimM;
+    X(l:l+11,1) = xnew;
     l = l + 12;
-    t = t + 1;
-    x0 = xnew;
-    
 end
 
 end
