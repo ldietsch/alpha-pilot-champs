@@ -1,4 +1,3 @@
-% I suck
 
 function res = bc2(ya, yb)
 global h
