@@ -2,11 +2,8 @@ function [g, h] = nlcons(U, X0, x_final_pos, quad_limits, info)
 
 N = info.nMPC;
 X = predictStates(X0, U, info);
-if ~isempty(x_final_pos)
-    h = (X((N)*12+1:N*12+3) - x_final_pos);
-else
-    h =[];
-end
+
+h = (X((N)*12+1:N*12+3) - x_final_pos);
 
 DX = predictDerivs(X, U, info);
 
