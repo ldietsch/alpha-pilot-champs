@@ -4,6 +4,6 @@ function J = costFunction(U, Q, R, x0, info)
 rho = info.rho;
 X = predictStates(x0, U, info);
 X = X(13:end);
-J = (X)'*Q*(X) + rho*U'*R*U;
+J = (X)'*Q*(X) + rho*U(1:end-1)'*R*U(1:end-1)+U(end-1);
 
 end

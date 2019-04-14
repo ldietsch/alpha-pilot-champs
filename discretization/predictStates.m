@@ -1,13 +1,17 @@
 function X = predictStates(x0, U, info)
+
 dimM = info.dimM;
 substeps = info.substeps;
+
 if info.post_processing %false by default
     N = info.Nsteps;
-else
+elseif info.optim_sol
     N = info.nMPC;
+else
+    N = 1;
 end
 X = zeros(12*(N+1),1);
-xV = zeros(12, N*substeps);
+xV = zeros(12, N*substeps+1);
 xV(:,1) = x0;
 X(1:12) = x0(1:12);
 n = 1;
