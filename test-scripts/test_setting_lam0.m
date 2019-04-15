@@ -1,5 +1,6 @@
 clear, clc
-% testing getting lam0 for ALM in SUMT
+%% testing getting lam0 for ALM in SUMT
+
 %% adding all folders necessary for compilation
 addpath('../discretization');
 addpath('../motion-model');
