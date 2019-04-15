@@ -1,4 +1,5 @@
 function [fx_k_1, Ts_new] = RK45(x, u, info)
+% pass in x, the current state, and the control input u
 Ts = info.Ts;
 tol = info.tol;
 k = zeros(12,6);
