@@ -38,7 +38,7 @@ Q = getQbar(Q0,n,nMPC);
 R = eye(info.dimM*info.Nsteps);
 x_final = [10; 10; 10];
 x0 = zeros(n,1);
-U0 = [zeros(info.dimM*info.Nsteps,1); info.Ts];
+U0 = [1; zeros(info.dimM*info.Nsteps-1,1); info.Ts];
 
 f = @(U)costFunction(U, Q, R, x0, info);
 h = @(U)equalityCons(U, x0, x_final, info);
