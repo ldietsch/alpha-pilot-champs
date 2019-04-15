@@ -1,7 +1,7 @@
-function [g, h] = nlcons(U, X0, x_final_pos, quad_limits, info)
+function [g, h] = nlcons(U, x0, x_final_pos, quad_limits, info)
 
 N = info.nMPC;
-X = predictStates(X0, U, info);
+X = predictStates(x0, U, info);
 
 h = (X((N)*12+1:N*12+3) - x_final_pos);
 
