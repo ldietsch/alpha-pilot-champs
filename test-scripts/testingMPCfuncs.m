@@ -1,4 +1,5 @@
-clear
+clear all
+close all
 clc
 %% adding all folders necessary for compilation
 addpath('../discretization');
@@ -52,7 +53,7 @@ options = optimoptions('fmincon','Algorithm','sqp',...
 j = 1;
 k = 1;
 l = 1;
-x_final_pos = 10*[.5 .5 .5]';
+x_final_pos = [.5 .5 .5]';
 n_total = info.nMPC;
 % for i = 1:nMPC
     info.optim_sol = true;
@@ -96,4 +97,34 @@ results = predictStates(x0, uMPC, info);
 [x, y, z] = extractPos(results, info.Nsteps);
 plot3(x,y,z,'--')
 
-
+color_palette = {};
+p_hand = plot3(x,y,z,'LineStyle','--','LineWidth',2);
+hold on
+color_palette = p_hand.Color;
+plot3(x0(1),x0(2),x0(3),'^','MarkerSize',6,'MarkerEdgeColor',p_hand.Color,...
+                                                 'MarkerFaceColor',p_hand.Color);
+plot3(x_final_pos(1), x_final_pos(2),x_final_pos(3),'p','MarkerSize',8,'MarkerEdgeColor',p_hand.Color,...
+                                                 'MarkerFaceColor',p_hand.Color);
+           
+plot3(x,y,z,'LineStyle','-','LineWidth',2,'Color',color_palette)
+        hold on
+xlim([(min(x)-0.5) (max(x)+0.5)])
+ylim([(min(y)-0.5) (max(y)+0.5)])
+zlim([(min(z)-0.5) (max(z)+0.5)])
+start_hand = plot3(10000,10000,10000,'b^','MarkerSize',6);
+end_hand   = plot3(10000,10000,10000,'bp','MarkerSize',8);
+legend([start_hand,end_hand],{'Start Point','End Point'},'Location',...
+    'northeast');
+title("AlphaPilot Race Course")
+xlabel('X [m]')
+ylabel('Y [m]')
+zlabel('Z [m]')
+    
+drawnow
+    
+setFont();
+xlabel('X [m]')
+ylabel('Y [m]')
+zlabel('Z [m]')
+grid ON
+simTrajectories3D(x,y,z,color_palette);
