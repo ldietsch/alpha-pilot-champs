@@ -2,7 +2,7 @@ function del = getPartialDerivs(x0, U, f, info)
 % getPartialDerivs finds the partial derivatives of any function to be used
 % with the ALM SUMT method. Note x0 and info are unused explicitly but must
 % be passed into the function since f is parameterized by x0 and info.
-
+info.Ts = U(end);
 fplus = zeros(size(f(U),1),length(U));
 fminus = zeros(size(f(U),1),length(U));
 if size(f(U),1) == 1
