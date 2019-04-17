@@ -17,7 +17,7 @@ info.nMPC = nMPC; % the steps in the moving horizon
 
 info.getting_next_state = false; %for one step only
 
-Q0 = eye(3);
+Q0 = (1-info.rho).*eye(3);
 Q = getQbar(Q0,3,nMPC);
 R = eye(info.dimM*info.nMPC);
 
