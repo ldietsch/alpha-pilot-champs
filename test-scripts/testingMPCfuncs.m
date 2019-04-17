@@ -64,8 +64,8 @@ k = 1;
 l = 1;
 x_final_pos = [];
 xf = xref(Nsteps*12 + 1: Nsteps*12 + 3);
-for i = 1:n_total
-    if (nMPC == n_total - i)
+for i = 1:n_total-info.nMPC + 1
+    if (nMPC == n_total - i + 1)
        x_final_pos = xf;
     elseif (nMPC > n_total - i) 
            info.nMPC = n_total - i + 1;
