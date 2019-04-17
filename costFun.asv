@@ -1,0 +1,10 @@
+function f = costFun(inputs, N)
+U = 
+
+rho = .01;
+cost_u = 0;
+for i = 1:N
+   cost_u = cost_u + U(:,i)'*U(:,i)*rho;  
+end
+Ts = U(1,N+1);
+f = cost_u + N*Ts;
