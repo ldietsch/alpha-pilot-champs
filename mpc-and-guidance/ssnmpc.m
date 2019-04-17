@@ -1,16 +1,16 @@
 function [uMPC, fval, exitflag, output] = ssnmpc(filename, info)
 %ssnmpc is single-shooting nonlinear model predictive control
 [~,~,input_file] = xlsread(filename);
-num_gates = input_file{30,2};
-segment_IDs = input_file{2,1:num_gates}; %will update all vectors according to actual file
-Nsteps = input_file{num_gates+2,2};
+num_gates = input_file{1,2};
+segment_IDs = input_file{2,2:num_gates+1}; %will update all vectors according to actual file
+Nsteps = input_file{3,2};
 info.Nsteps = Nsteps;
-info.substeps = input_file{num_gates+3,2};
-Ts = input_file{:,3};
+info.substeps = input_file{4,2};
+Ts = input_file{5,2:num_gates+1};
 info.Ts = Ts(1);
-Xref = input_file{2:num_gates+1,4:Nsteps*num_gates+4};
-Uref = input_file{2:num_gates+1, Nsteps*num_gates+5:2*Nsteps*num_gates + 5};
-gatePositions = input_file(num_gates+4:num_gates+6,1:num_gates); %should be a structure
+Xref = input_file{6,2:Nsteps*num_gates+2};
+Uref = input_file{7,2:Nsteps*num_gates+2};
+gatePositions = input_file(8:10,2:num_gates+1); %should be a structure
 info.two_sample_times = false;
 nMPC = 10;
 info.nMPC = nMPC; % the steps in the moving horizon

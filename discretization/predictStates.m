@@ -13,8 +13,20 @@ X = zeros(12*(N+1),1);
 xV = zeros(12, N*substeps);
 xV(:,1) = x0;
 X(1:12) = x0(1:12);
+if info.getPosition
+    X = zeros(3*(N+1),1);
+    xV = zeros(12, N*substeps);
+    xV(:,1) = x0;
+    X(1:3) = x0(1:3);  
+    l = 4;
+else
+    X = zeros(12*(N+1),1);
+    xV = zeros(12, N*substeps);
+    xV(:,1) = x0;
+    X(1:12) = x0(1:12);
+    l = 13;
+end
 n = 1;
-l = 13;
 
 %this integration scheme follows the single shooting scheme
 for i = 1:N
@@ -34,8 +46,14 @@ for i = 1:N
         xV(:,k+1) = xnew;
     end
     n = n + dimM;
-    X(l:l+11,1) = xnew;
-    l = l + 12;
+    
+    if info.getPosition
+        X(l:l+2,1) = xnew(1:3);
+        l = l + 3;        
+    else
+        X(l:l+11,1) = xnew;
+        l = l + 12;
+    end
 end
 
 end

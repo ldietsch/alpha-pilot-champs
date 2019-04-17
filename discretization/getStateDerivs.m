@@ -15,17 +15,14 @@ v_body = x(4:6);
 eAngles = x(7:9);
 bAngV = x(10:12);
 
-if info.getPosition
-    v_inert = getVelInert(eAngles, v_body);
-    fx = v_inert;
-else
-    v_inert = getVelInert(eAngles, v_body);
-    acc_body = getAccBody(bAngV, v_body, eAngles, m, F, g);
-    vEangles = getVelEangles(eAngles, bAngV);
-    tau = getBodyTorque(u, l, k_tau); 
-    bAngAcc = getBodyAngAcc(bAngV, tau, J);
-    fx = [v_inert; acc_body; vEangles; bAngAcc];
-end
+
+v_inert = getVelInert(eAngles, v_body);
+acc_body = getAccBody(bAngV, v_body, eAngles, m, F, g);
+vEangles = getVelEangles(eAngles, bAngV);
+tau = getBodyTorque(u, l, k_tau); 
+bAngAcc = getBodyAngAcc(bAngV, tau, J);
+fx = [v_inert; acc_body; vEangles; bAngAcc];
+
 
 
 end

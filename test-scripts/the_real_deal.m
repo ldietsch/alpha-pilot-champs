@@ -29,7 +29,9 @@ info.substeps = 5; %steps to be used with integrator
 info.rho = .1; %multiplier to control inputs in cost function
 nMPC = info.nMPC; %N steps ahead in MPC
 info.post_processing = false;
-
+info.getPosition = false;
+info.two_sample_times = false;
+info.getting_next_state = false;
 %% testing single-shooting nmpc function
 % guidance trajectory goes here
 input_file = '../input-files/test.xlsx';
