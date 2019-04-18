@@ -22,7 +22,7 @@ info.dimM = m;
 info.Nstates = n;
 info.nMPC = 40;
 info.Nsteps = 5;
-info.substeps = 5; %steps to be used with integrator
+info.substeps = 40; %steps to be used with integrator
 info.rho = .1; %multiplier to control inputs in cost function
 nMPC = info.nMPC; %N steps ahead in MPC
 Ts = 0.01;
@@ -139,8 +139,8 @@ for k = 1:1:gate.last
     
     Gate_ID = [Gate_ID, k];
     Ts_total = [Ts_total, Ustar(end)];
-    X_ref_total = [X_ref_total, xref];
-    Ustar_total = [Ustar_total, Ustar(1:info.Nsteps*4)];
+    X_ref_total = [X_ref_total; xref];
+    Ustar_total = [Ustar_total; Ustar(1:info.Nsteps*4)];
     Gatepos_total = [Gatepos_total, info.xf];
     
     
@@ -153,11 +153,12 @@ Num_gates = gate.last;
 Nstep = info.Nsteps;
 Substep = info.substeps;
 
-[xi, yi, zi] = extractPos(X_ref_total, info.Nsteps*Num_gates+1);
+[xi, yi, zi] = extractPos(X_ref_total, length(X_ref_total)/12);
 figure(k)
 plot3(xi,yi,-zi)
 hold on
 scatter3(gate_x, gate_y, -gate_z)
+axis[0 10 0 10 0 10])
 
 
 
