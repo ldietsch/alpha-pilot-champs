@@ -2,7 +2,6 @@ function g = inequalCon(U, info)
 Fupper = info.motorlimit;
 Nsteps = info.Nsteps;
 Ts = U(end);
-% Ts = info.Ts1;
 g = zeros(Nsteps*8+2,1);
 j = 1;
 for i = 1:1:Nsteps*4
