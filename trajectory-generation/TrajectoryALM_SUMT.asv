@@ -21,8 +21,8 @@ m = 4; %Number of inputs
 info.dimM = m;
 info.Nstates = n;
 info.nMPC = 40;
-info.Nsteps = 10;
-info.substeps = 20; %steps to be used with integrator
+info.Nsteps = 5;
+info.substeps = 5; %steps to be used with integrator
 info.rho = .1; %multiplier to control inputs in cost function
 nMPC = info.nMPC; %N steps ahead in MPC
 Ts = 0.01;
@@ -41,15 +41,24 @@ gate.z = Gates{:,4};
 gate.current = 0;
 gate.last = gate.N(end);
 
+Gate_ID = [];
+Ts_total = [];
+X_ref_total = [];
+Ustar_total = [];
+Gatepos_total = [];
+gate_x = []; gate_y = []; gate_z = [];
+
 for k = 1:1:gate.last
     if k == 1
         info.x0 = zeros(12,1);
     else
-        info.x0 = xref(;%previous states
+        info.x0 = xref(end-11:end);%previous states
     end
     
     info.xf = [gate.x(k+1),gate.y(k+1),gate.z(k+1)];
     info.motorlimit = 3*2.6978; %approx 3:1 power to weight
+    
+    gate_x = [gate_x, gate.x(k+1)]; gate_y = [gate_y, gate.y(k+1) ]; gate_z = [gate_z, gate.z(k+1) ];
     
     
     U0 = ones(m*info.Nsteps,1) * 2.6978;     %create initial input for minimization
@@ -124,10 +133,32 @@ for k = 1:1:gate.last
     
     x0 = info.x0;
     xref = predictStates(x0,Ustar,info);
-    [xi, yi, zi] = extractPos(xref, info.Nsteps+1);
-    figure(k)
-    plot3(xi,yi,-zi)
+    %     [xi, yi, zi] = extractPos(xref, info.Nsteps+1);
+    %     figure(k)
+    %     plot3(xi,yi,-zi)
+    
+    Gate_ID = [Gate_ID, k];
+    Ts_total = [Ts_total, Ustar(end)];
+    X_ref_total = [X_ref_total, xref];
+    Ustar_total = [Ustar_total, Ustar(1:info.Nsteps*4)];
+    Gatepos_total = [Gatepos_total, info.xf];
+    
+    
+    
+    
+    
 end
+
+Num_gates = gate.last;
+Nstep = info.Nsteps;
+Substep = info.substeps;
+
+[xi, yi, zi] = extractPos(X_ref_total, info.Nsteps*Num_gates+1);
+figure(k)
+plot3(xi,yi,-zi)
+hold on
+scatter3(gate_x, gate_y, -gate_z)
+
 
 
 
