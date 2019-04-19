@@ -1,6 +1,7 @@
 function [g, h] = nlcons(U, X0, x_final_pos, quad_limits, info)
 
 N = info.nMPC;
+info.getPosition = false;
 X = predictStates(X0, U, info);
 if ~isempty(x_final_pos)
     h = (X((N)*12+1:N*12+3) - x_final_pos);

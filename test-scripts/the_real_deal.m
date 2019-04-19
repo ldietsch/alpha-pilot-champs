@@ -35,14 +35,15 @@ info.getting_next_state = false;
 %% testing single-shooting nmpc function
 % guidance trajectory goes here
 input_file = '../input-files/test.xlsx';
-[uMPC,~,exitflag,~] = ssnmpc(input_file,info);
+[uMPC,~,exitflag,~,info] = ssnmpc(input_file,info);
 
 
 %% Post-processing
 info.post_processing = true;
-x0 = zeros(n,1)*.2;
+x0 = zeros(n,1);
 results = predictStates(x0, uMPC, info);
 [x, y, z] = extractPos(results, info.Nsteps);
+x_final_pos = [x(end);y(end);z(end)];
 plot3(x,y,z,'--')
 
 color_palette = {};

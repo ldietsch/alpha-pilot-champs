@@ -99,15 +99,16 @@ x0 = zeros(n,1)*.2;
 results = predictStates(x0, Umpc, info);
 [x, y, z] = extractPos(results,info.Nsteps);
 pos = extractPosVec(results, info.Nsteps);
-results = cell(7,2);
-results(:,1) = {'Num_Gates', 'IDs','Nsteps','Ts','Xref','Uref','GatePositions'};
-results(1,2) = {2};
+results = cell(8,2);
+results(:,1) = {'Num_Gates', 'IDs','Nsteps','Substeps','Ts','Xref','Uref','GatePositions'};
+results(1,2) = {1};
 results(2,2:3) = num2cell(1:2);
 results(3,2) = {info.Nsteps};
 results(4,2) = {info.substeps};
-results(5,2:3*(Nsteps)+1) = num2cell(pos');
-results(6,2:m*(Nsteps)+1) = num2cell(Umpc);
-results(7,2:7) = num2cell([0.5 0.5 0.5 1 1 1]);
+results(5,2) = {info.Ts};
+results(6,2:3*(Nsteps)+1) = num2cell(pos');
+results(7,2:m*(Nsteps)+1) = num2cell(Umpc);
+results(8,2:4) = num2cell([0.5 0.5 0.5]);
 xlswrite(output_file, results);
 hold on
 plot3(x,y,z,'--')
