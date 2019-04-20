@@ -1,5 +1,5 @@
 function X = predictStates(x0, U, info)
-
+% info.Ts = U(end);
 dimM = info.dimM;
 substeps = info.substeps;
 

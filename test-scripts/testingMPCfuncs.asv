@@ -24,12 +24,12 @@ m = 4; %Number of inputs
 info.dimM = m;
 info.Nstates = n;
 info.nMPC = 5;
-info.Nsteps = 20; % will be necessary for overall trajectory - total iterations will nMPC*Nsteps
+info.Nsteps = 40; % will be necessary for overall trajectory - total iterations will nMPC*Nsteps
 info.substeps = 10; %steps to be used with integrator
 info.rho = .1; %multiplier to control inputs in cost function
 nMPC = info.nMPC; %N steps ahead in MPC
 info.optim_sol = true;
-Ts = 0.01;
+Ts = 0.04;
 info.Ts = Ts; %time step to be used in integrator
 info.post_processing = false;
 Q0 = [diag([1 1 1]) zeros(3) zeros(3) zeros(3); zeros(9,3) zeros(9)];
@@ -57,7 +57,7 @@ v_max = 80*1000/60^2; %80 km/h
 quad_limits = struct('a_max',a_max,'v_max',v_max);
 
 
-options = optimoptions('fmincon','Algorithm','sqp',...
+options = optimoptions('fmincon','Algorithm','interior-point',...
     'MaxFunctionEvaluations',1e4);
 
 Gate_ID = [];
@@ -95,7 +95,7 @@ end
 
 %% Post-processing
 info.post_processing = true;
-% x0 = zeros(n,1);
+x0 = zeros(n,1)*.2;
 % results = predictStates(x0, uMPC, info);
 [x, y, z] = extractPos(X_ref_total, info.nMPC*gate.last);
 plot3(x,y,-z,'--')
@@ -107,7 +107,7 @@ hold on
 color_palette = p_hand.Color;
 plot3(x0(1),x0(2),x0(3),'^','MarkerSize',6,'MarkerEdgeColor',p_hand.Color,...
                                                  'MarkerFaceColor',p_hand.Color);
-plot3(info.xf(1), info.xf(2),info.xf(3),'p','MarkerSize',8,'MarkerEdgeColor',p_hand.Color,...
+plot3(x_final_pos(1), x_final_pos(2),x_final_pos(3),'p','MarkerSize',8,'MarkerEdgeColor',p_hand.Color,...
                                                  'MarkerFaceColor',p_hand.Color);
            
 plot3(x,y,z,'LineStyle','-','LineWidth',2,'Color',color_palette)
