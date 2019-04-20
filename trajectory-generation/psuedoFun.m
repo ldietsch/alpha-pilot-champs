@@ -14,7 +14,7 @@ rp = info.rp;
 %fletchers principal
 
 G = 0; H = 0;
-for i = 1:Nsteps+2
+for i = 1:8*Nsteps+2
     psi = max(g(i),-lambda_g(i)/2*rp);
     G = G + lambda_g(i)*psi + rp*psi^2;
 end
