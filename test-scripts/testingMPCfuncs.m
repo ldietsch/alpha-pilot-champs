@@ -23,9 +23,9 @@ n = 12; %Number of states
 m = 4; %Number of inputs
 info.dimM = m;
 info.Nstates = n;
-info.nMPC = 5;
-info.Nsteps = 20; % will be necessary for overall trajectory - total iterations will nMPC*Nsteps
-info.substeps = 10; %steps to be used with integrator
+info.nMPC = 20;
+info.Nsteps = 30; % will be necessary for overall trajectory - total iterations will nMPC*Nsteps
+info.substeps = 40; %steps to be used with integrator
 info.rho = .1; %multiplier to control inputs in cost function
 nMPC = info.nMPC; %N steps ahead in MPC
 info.optim_sol = true;
@@ -66,17 +66,19 @@ X_ref_total = [];
 Ustar_total = [];
 Gatepos_total = [];
 gate_x = []; gate_y = []; gate_z = [];
-for i = 1:gate.last
+for i = 1:2
     tic
     if i == 1
         info.x0 = zeros(12,1);        
     else
         info.x0 = xref(end-11:end);%previous states
     end
+    gate_x = [gate_x, gate.x(i+1)]; gate_y = [gate_y, gate.y(i+1) ]; ...
+        gate_z = [gate_z, gate.z(i+1) ];    
     nextGate = [gate.x(i+1),gate.y(i+1),gate.z(i+1)];
     info.xf = nextGate;
     
-    U0 = ones(m*info.nMPC,1) * 2.6978;     %create initial input for minimization
+    U0 = [1.5; 1; 1; 1; zeros(m*(info.nMPC-1),1)] * 2.6978;     %create initial input for minimization
     
     x0 = info.x0;
     
@@ -95,12 +97,12 @@ end
 
 %% Post-processing
 info.post_processing = true;
-% x0 = zeros(n,1);
+x0 = zeros(n,1);
 % results = predictStates(x0, uMPC, info);
-[x, y, z] = extractPos(X_ref_total, info.nMPC*gate.last);
-plot3(x,y,-z,'--')
+[x, y, z] = extractPos(X_ref_total, info.nMPC*2);
+plot3(x,y,z,'--')
 hold on
-scatter3(gate_x, gate_y, -gate_z)
+scatter3(gate_x, gate_y, gate_z)
 color_palette = {};
 p_hand = plot3(x,y,z,'LineStyle','--','LineWidth',2);
 hold on

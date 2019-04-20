@@ -5,5 +5,5 @@ rho = info.rho;
 % X = predictStates(x0, U, info);
 % X = X(13:end);
 % J = (X)'*Q*(X) + rho*U'*R*U;
-J = rho*U'*R*U;
+J = U'*R*U;
 end
