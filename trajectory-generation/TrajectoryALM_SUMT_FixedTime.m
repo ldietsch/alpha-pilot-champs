@@ -21,8 +21,8 @@ m = 4; %Number of inputs
 info.dimM = m;
 info.Nstates = n;
 info.nMPC = 20;
-info.Nsteps = 15;
-info.substeps = 65; %steps to be used with integrator
+info.Nsteps = 10;
+info.substeps = 50; %steps to be used with integrator
 info.rho = .1; %multiplier to control inputs in cost function
 nMPC = info.nMPC; %N steps ahead in MPC
 Ts = 0.01;
@@ -33,8 +33,8 @@ info.vel_upper = 16.66/sqrt(3);
 % Q = getQbar(Q0,n,nMPC);
 info.R = eye(info.dimM*info.Nsteps);
 %% Read in previous data
-prev_data = xlsread("firstFourGates.xlsx");
-states = prev_data(1,:); xref = states;
+% prev_data = xlsread("firstFourGates.xlsx");
+% states = prev_data(1,:); xref = states;
 
 
 %% SUMT Initialization
@@ -46,7 +46,8 @@ gate.x = Gates{:,2};
 gate.y = Gates{:,3};
 gate.z = Gates{:,4};
 gate.current = 0;
-gate.last = gate.N(end);
+% gate.last = gate.N(end);
+gate.last = 2;
 
 Gate_ID = [];
 Ts_total = [];
@@ -55,7 +56,7 @@ Ustar_total = [];
 Gatepos_total = [];
 gate_x = []; gate_y = []; gate_z = [];
 redo_traj = false; %initialize boolean
-k = 5;
+k = 1;
 while k <= gate.last %this should be read as the for-loop. Had to adjust to
     %make it work with step adjustment
     if k == 1 && ~redo_traj
