@@ -32,6 +32,11 @@ info.vel_upper = 16.66/sqrt(3);
 % Q0 = [diag([49 49 0]) zeros(3) zeros(3) zeros(3); zeros(9,3) zeros(9)];
 % Q = getQbar(Q0,n,nMPC);
 info.R = eye(info.dimM*info.Nsteps);
+%% Read in previous data
+prev_data = xlsread("firstFourGates.xlsx");
+states = prev_data(1,:); xref = states;
+
+
 %% SUMT Initialization
 
 Gates = readtable('Gate Locations.xlsx');
@@ -50,8 +55,8 @@ Ustar_total = [];
 Gatepos_total = [];
 gate_x = []; gate_y = []; gate_z = [];
 redo_traj = false; %initialize boolean
-k = 1;
-while k <= 4 %this should be read as the for-loop. Had to adjust to
+k = 5;
+while k <= gate.last %this should be read as the for-loop. Had to adjust to
     %make it work with step adjustment
     if k == 1 && ~redo_traj
         info.x0 = zeros(12,1);
@@ -142,7 +147,6 @@ while k <= 4 %this should be read as the for-loop. Had to adjust to
         x0 = info.x0;
         xref = predictStates(x0,Ustar,info);
         Gate_ID = [Gate_ID, k];
-        Ts_total = [Ts_total, Ustar(end)];
         X_ref_total = [X_ref_total; xref];
         Ustar_total = [Ustar_total; Ustar(1:info.Nsteps*4)];
         Gatepos_total = [Gatepos_total, info.xf];
