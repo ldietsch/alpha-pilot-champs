@@ -25,7 +25,7 @@ function [simRuns] = runAll(~)
     
     numRuns = stopRun-startRun+1;
     Nsteps = params{numRuns+1,2};
-    results = cell(numRuns+1,4*Nsteps + 1);
+    results = cell(numRuns+1,4*Nsteps*5 + 1);
     try
         % test to see if we can write to the file
         xlswrite(output_file,[1]);
