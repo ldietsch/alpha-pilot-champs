@@ -4,4 +4,11 @@ Vupper = info.vel_upper;
 gUpper = U./Fupper - 1;
 gLower = -U;
 
-g = [gUpper; gLower;];
+xREF = predictStates(info.x0,U,info);
+
+velF = xREF(end-9:end-7);
+velFupper = velF./Vupper - 1;
+velFlower = -velF./Vupper - 1;
+
+g = [gUpper; velFupper; gLower; velFlower];
+
