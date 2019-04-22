@@ -28,8 +28,6 @@ info.Nstates = n;
 info.rho = .1; %multiplier to control inputs in cost function
 info.post_processing = false;
 info.vel_upper = 16.66/sqrt(3);
-% Q0 = [diag([49 49 0]) zeros(3) zeros(3) zeros(3); zeros(9,3) zeros(9)];
-% Q = getQbar(Q0,n,nMPC);
 info.R = eye(info.dimM*info.Nsteps);
 
 
