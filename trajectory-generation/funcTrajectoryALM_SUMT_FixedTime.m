@@ -52,9 +52,11 @@ k = 1;
 while k <= gate.last %this should be read as the for-loop. Had to adjust to
     %make it work with step adjustment
     if k == 1 
-        info.x0 = zeros(12,1);     
+        info.x0 = zeros(12,1);  
+        startGate = [0;0;0]';
     else
         info.x0 = xref(end-11:end);%previous states
+        startGate = [gate.x(k),gate.y(k),gate.z(k)];
     end
     if k + 2 <= gate.last
         afterNextGate = [gate.x(k+2),gate.y(k+2),gate.z(k+2)];
@@ -62,7 +64,7 @@ while k <= gate.last %this should be read as the for-loop. Had to adjust to
     else
        info.afterNextGate = [];
     end
-    startGate = [gate.x(k),gate.y(k),gate.z(k)];
+
     nextGate = [gate.x(k+1),gate.y(k+1),gate.z(k+1)];
     info.startGate = startGate;
     info.nextGate = nextGate;

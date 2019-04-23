@@ -15,17 +15,18 @@ else
 end
 
 vel = extractVel(xref,info.Nsteps+1);
-vf = vel(end-9:end-7)';
+vf = vel(end-9:end-7);
 
 vmax = 54; % m/s
-beta = 0.01; %m/s
-alpha = 0.4;
+beta = 0.5; %m/s
+alpha = 0.3;
 if theta < pi/2
-    vUpper = (vf - (1/sqrt(3))*alpha*(1 - theta/(pi/2))*vmax-beta);
-    vLower = (-vf+1/sqrt(3)*beta);
+    vUpper = (vf - alpha*(1 - theta/(pi/2))*vmax-beta)/...
+        (alpha*(1 - theta/(pi/2))*vmax-beta);
+    vLower = (-norm(vf)+beta)/beta;
 else
-    vUpper = vf;
-    vLower = -vf;
+    vUpper = norm(vf);
+    vLower = -norm(vf);
 end
 
 omega = extractOmega(xref,info.Nsteps);
