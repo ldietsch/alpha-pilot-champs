@@ -24,11 +24,14 @@ for i = 1:size(X,1)
    [x(i,:), y(i,:), z(i,:)] = extractPos(X(i,:)', size(X,2)/12); 
    plot3(x(i,:),y(i,:),-z(i,:));
    hold on
-   ID_labels{i} = "" + run;
+   ID_labels{i} = "ID = " + run;
    run = run + 1;
 end
 ID_labels{end+1} = "Gates";
-
+title("Calculated trajectories for N = 5")
+xlabel("X [m]")
+ylabel("Y [m]")
+zlabel("Z [m]")
 scatter3(gatex, gatey, gatez)
 legend(ID_labels)
 grid

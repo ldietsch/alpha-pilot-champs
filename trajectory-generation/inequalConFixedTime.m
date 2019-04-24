@@ -14,8 +14,7 @@ else
     theta = 0;
 end
 
-vel = extractVel(xref,info.Nsteps+1);
-vf = vel(end-9:end-7)';
+vf = xref(end-9:end-7);
 
 vmax = 54; % m/s
 beta = 0.01; %m/s
@@ -28,11 +27,11 @@ else
     vLower = -vf;
 end
 
-omega = extractOmega(xref,info.Nsteps);
+omega = extractOmega(xref,info.Nsteps+1);
 omf = omega(end-2:end);
 omfU = (norm(omf) - pi)/pi;
 omfL = -(norm(omf) + pi)/pi;
 
 g = [gUpper; vUpper; omfU; gLower; vLower; omfL];
-
+% g = [gUpper; vUpper; gLower; vLower];
 end

@@ -5,8 +5,10 @@ m = info.dimM;
 
 
 R = info.R;
-
-Q = eye(length(xref));
-
-f = 1/(Nsteps*info.Nstates)^2 *xref'*Q*xref + ...
-    1/(info.dimM*Nsteps)^2 * U(1:Nsteps*m).'*R*U(1:Nsteps*m);
+% Q0 = diag([1/4 1/4 1/4 1/2 1/2 1/2 1/4 1 1/4 1 1 1]);
+Q = getQbar(Q0,info.Nstates,Nsteps);
+% Q = eye(length(xref)-12);
+% Q(end-11:end,end-11:end) = zeros(12);
+xref = xref(13:end);
+f = (1-info.rho).*xref'*Q*xref + ...
+   info.rho * U'*R*U;
